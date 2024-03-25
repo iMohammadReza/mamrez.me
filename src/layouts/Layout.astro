@@ -1,0 +1,90 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import { DarkMode } from 'accessible-astro-components'
+import SiteMeta from '../components/SiteMeta.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+	title?: string;
+	footerLess?: boolean;
+}
+
+const { title, footerLess = false } = Astro.props
+---
+
+<html lang="en" dir="ltr">
+  <head>
+    <ViewTransitions />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="robots" content="index, follow" />
+    <link rel="sitemap" href="/sitemap-index.xml">
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Slab:wght@300;700&family=Almarai:wght@300;800&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Slab:wght@300;700&family=Almarai:wght@300;800&display=swap"
+			rel="preload" as="style"
+		/>
+		<meta name="theme-color" content="#000000" />
+		<meta name="msapplication-TileColor" content="#da532c" />
+		<link rel="icon" href="/favicon/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+		<link rel="manifest" href="/manifest.json" />
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <SiteMeta pageTitle={title} />
+  </head>
+  <body class="flex flex-col h-screen">
+    <main id="main-content" class="flex-1">
+      <span class="fixed inline-flex bg-white rounded-full p-1 drop-shadow-md top-2 right-2">
+        <DarkMode />
+      </span>
+      <slot />
+    </main>
+    {!footerLess && <Footer />}
+  </body>
+</html>
+<style  is:global>
+  .reduce-motion {
+    @apply motion-reduce:transition-none motion-reduce:hover:transform-none;
+  }
+
+  .section-title {
+    @apply font-mono font-bold text-2xl text-red-500;
+  }
+
+  body::before {
+    background-image: radial-gradient(#444cf7 1px, #ddd 1px);
+    background-size: 20px 20px;
+    content: '';
+    z-index: -1;
+
+    @apply fixed top-0 left-0 h-screen w-screen bg-white opacity-40;
+  }
+
+   body.darkmode::before {
+    background-image: radial-gradient(#444 1px, #000 1px);
+
+    @apply bg-black opacity-95;
+  }
+
+  ::selection {
+    @apply text-gray-100 bg-red-500;
+  }
+
+  ::-webkit-scrollbar {
+    @apply h-3 w-3;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-red-500;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-black;
+  }
+</style>

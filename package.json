@@ -1,43 +1,44 @@
 {
-  "name": "imohammadrea.ir",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "yarn lint:script && yarn lint:style",
-    "lint:script": "eslint --ext .jsx,.js src/",
-    "lint:style": "stylelint '**/*.scss'",
-    "postinstall": "node postinstall.js"
+  "name": "imohammadreza-ir",
+  "type": "module",
+  "version": "2.0.0",
+  "homepage": "https://imohammadreza.ir",
+  "author": "MohammadReza Iranmanesh <imohammadreza.ir@gmail.com> (https://imohammadreza.ir)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.3",
-    "axios": "^0.21.1",
-    "critters": "0.0.10",
-    "next": "^11.0.0",
-    "next-absolute-url": "^1.2.2",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-ga": "^3.3.0",
-    "react-spring": "npm:@react-spring/web@9.0.0-rc.3",
-    "use-sound": "^2.0.1",
-    "xml2js": "^0.4.23"
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "eslint --ext .js,.astro src"
   },
   "devDependencies": {
-    "autoprefixer": "^10.2.5",
-    "eslint": "^7.22.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-next": "^11.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.2.8",
-    "replace-in-file": "^6.2.0",
-    "stylelint": "^13.12.0",
-    "stylelint-config-standard": "^21.0.0",
-    "tailwindcss": "^2.0.4"
+    "@astrojs/check": "^0.5.8",
+    "@astrojs/mdx": "^2.2.0",
+    "@astrojs/sitemap": "^3.1.1",
+    "@astrojs/tailwind": "^5.1.0",
+    "@iconify-json/mdi": "^1.1.64",
+    "@iconify-json/pixelarticons": "^1.1.10",
+    "@types/xml2js": "^0.4.14",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "accessible-astro-components": "^2.3.5",
+    "astro": "^4.5.2",
+    "astro-icon": "^1.1.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-astro": "^0.31.4",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "xml2js": "^0.6.2"
   }
 }

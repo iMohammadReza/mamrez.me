@@ -1,0 +1,14 @@
+---
+import SocialChip from './SocialChip.astro';
+import { socials } from '../config';
+--- 
+<h3 class="section-title">Contact me</h3>
+<div class="mt-4 mb-8">
+  {socials.map(({ title, link, iconName }) => (
+    <SocialChip
+      title={title}
+      link={link}
+      iconName={iconName}
+    />
+  ))}
+</div>

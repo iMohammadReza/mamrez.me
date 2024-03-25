@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import WaveDivider from '../components/WaveDivider.astro';
+import Creations from '../components/Creations.astro';
+import Playlists from '../components/Playlists.astro';
+import Contact from '../components/Contact.astro';
+import Posts from '../components/Posts.astro';
+---
+<Layout>
+  <div>
+    <Hero />
+    <WaveDivider />
+    <main class="bg-white dark:bg-black">
+      <div class="lg:max-w-6xl lg:mx-auto py-16 px-8 lg:flex lg:flex-row-reverse">
+        <aside class="lg:max-w-xs">
+          <Creations/>
+          <Playlists />
+          <Contact />
+        </aside>
+        <div class="flex-1 lg:mr-24">
+          <h3 class="section-title">Recently Published</h3>
+          <Posts />
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>

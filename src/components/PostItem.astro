@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components'
+import type { Post } from '../types'
+
+export type Props = Post;
+
+const { title, link, summary, date: rawDate } = Astro.props;
+const date = new Date(rawDate)
+---
+<article dir="auto" title={title} class="group mt-12 dark:text-gray-200">
+  <a
+    href={link}
+    aria-label={title}
+    target="_blank"
+    rel="noreferrer"
+  >
+    <h1 class="text-2xl font-extrabold group-hover:text-red-500 group-hover:underline transition-color">{title}</h1>
+    <div class="my-4 text-xl font-light font-sans" set:html={summary}/>
+    <div dir="ltr" class="flex">
+      <span class="font-mono font-bold inline-flex items-center">
+        <Icon name="pixelarticons:clock" class="w-5"/>
+        <span class="pl-1">{date.toDateString()}</span> 
+      </span>
+      <span class="px-3">|</span>
+      <span class=" inline-flex items-center font-mono font-bold group-hover:text-red-500 group-hover:underline transition-color">
+        <span class="pr-1">Read more</span>
+        <Icon name="pixelarticons:open" class="w-5"/>
+      </span>
+    </div>
+  </a>
+</article>

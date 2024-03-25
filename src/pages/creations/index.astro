@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/CreactionsLayout.astro'
+import CreationItem from '../../components/CreationItem.astro';
+
+const creations = await getCollection('creations');
+
+---
+<Layout title="Creations">
+  <section class="p-8">
+    <p class="font-extralight mb-8 italic">Stuff in this list is NOT related to places I wokred in.</p>
+    <ul class="grid md:grid-cols-2 gap-8">
+      {creations
+        .sort(({ data:{ date: a } }, { data:{ date: b } }) => b - a)
+        .map(({data: creation}, i) => (
+          <CreationItem {...creation} i={creations.length - i}/>
+      ))}
+    </ul>
+  </section>
+</Layout>

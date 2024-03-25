@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components'
+import Layout from './Layout.astro'
+import WaveDivider from '../components/WaveDivider.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props
+---
+
+<Layout title={title}>
+  <span class="absolute top-2 left-2 dark:text-white inline-flex items-center hover:underline">
+    <Icon name="pixelarticons:arrow-left" class="mr-2"/>
+    <a href="/">
+      Home
+    </a>
+  </span>
+  <h1 class="font-extrabold mt-20 mb-10 mx-8 text-4xl sm:text-6xl md:text-7xl lg:text-8xl dark:text-white">{title}</h1>
+  <WaveDivider />
+  <div class="flex-1 bg-white dark:bg-black dark:text-white">
+    <slot/>
+  </div>
+</Layout>

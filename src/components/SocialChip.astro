@@ -1,0 +1,17 @@
+---
+import { Icon } from 'astro-icon/components'
+import type { Social } from '../types'
+
+export type Props = Social;
+
+const { title, link, iconName } = Astro.props;
+---
+<a
+  class="inline-flex flex-initial items-center rounded-full bg-gray-900 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-gray-400 text-sm text-white dark:text-gray-900 mr-4 mb-4 px-4 py-1 transition-color transition-transform transform hover:scale-105 reduce-motion"
+  href={link}
+  target="_blank"
+  rel="noreferrer"
+>
+  <Icon name={iconName} class="w-4"/>
+  <span class="pl-2">{title}</span>
+</a>

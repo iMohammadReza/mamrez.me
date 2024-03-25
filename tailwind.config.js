@@ -1,9 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/** @type {import('tailwindcss').Config} */
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  purge: ['./pages/**/*.{js,jsx}', './components/**/*.{js,jsx}'],
-  darkMode: 'class',
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  plugins: [],
+  darkMode: ['class', '.darkmode'],
   theme: {
     fontFamily: {
       sans: ['Inter', 'Almarai', 'sans-serif'],
@@ -14,7 +15,7 @@ module.exports = {
       black: colors.black,
       red: colors.red,
       indigo: colors.indigo,
-      gray: colors.trueGray,
+      gray: colors.neutral,
     },
     scale: {
       25: '.25',
@@ -40,4 +41,4 @@ module.exports = {
       display: ['group-hover'],
     },
   },
-};
+}

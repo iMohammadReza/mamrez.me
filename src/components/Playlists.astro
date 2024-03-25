@@ -1,0 +1,25 @@
+---
+const ifarmeDefaultProps = {
+  height: '80',
+  frameBorder: '0',
+  allowtransparency: 'true',
+  allow: 'encrypted-media',
+};
+---
+<h3 class="section-title">Playlists</h3>
+<div class="mt-4 mb-8 flex flex-col sm:flex-row lg:flex-col justify-between">
+  <iframe
+    title="Metal spotify playlist"
+    src="https://open.spotify.com/embed/playlist/5U3TbOPUeBSwAwIs6RF76j"
+    class="max-w-lg flex-grow mb-6 sm:mr-6 sm:mb-0 lg:mr-0 lg:mb-6"
+    loading="lazy"
+    {...ifarmeDefaultProps}
+  />
+  <iframe
+    title="ZeroToHund spotify playlist"
+    src="https://open.spotify.com/embed/playlist/54OLgLlkPKD70bTf2nt24w"
+    class="max-w-lg flex-grow"
+    loading="lazy"
+    {...ifarmeDefaultProps}
+  />
+</div>

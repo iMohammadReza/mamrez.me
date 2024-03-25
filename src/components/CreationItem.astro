@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components'
+import Chip from './Chip.astro';
+
+interface Props {
+  i: number;
+	title: string;
+	body: string;
+	status: "Running" | "Stopped";
+	url?: string;
+	date: number;
+}
+
+const { i, body, title, status, date, url } = Astro.props;
+---
+<li class="group border rounded-lg border-gray-200 dark:border-gray-700 p-4">
+  <h2 class="font-extrabold text-2xl">
+    <span class="italic font-normal text-sm mr-2">#{i} </span>
+    {title}
+    <span class="italic font-normal text-sm">/ {date}</span>
+  </h2>
+  <p class="font-light py-2">{body}</p>
+  <Chip>{status}</Chip>
+  {url && (
+    <a
+      href={`https://${url}`}
+      target="_blank"
+      class="ml-2 inline-flex items-center font-mono font-bold hover:text-red-500 hover:underline transition-color"
+      rel="noreferrer"
+    >
+      <span class="pr-1">See more</span>
+      <Icon name="pixelarticons:open" class="w-5"/>
+    </a>
+  )}
+</li>

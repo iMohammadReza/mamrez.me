@@ -1,0 +1,33 @@
+---
+interface Props {
+	pageTitle?: string;
+}
+
+const { pageTitle } = Astro.props
+
+const author = "MohammadReza Iranmanesh";
+const description = 'MohammadReza Iranmanesh Personal Blog';
+const fullTitle = pageTitle ? `${pageTitle} - ${author}` : author;
+const image = `${Astro.site}favicon/apple-touch-icon.png`
+const twitterId = "@unclemamrez";
+---
+
+<title>{fullTitle}</title>
+
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+<meta name="keywords" content="MohammadReza, Iranmanesh, MamRez, UncleMamrez, Uncle Mamrez, Manesh, portfolio, resume, front-end, frontend, engineer, react" />
+
+<meta property="og:title" property="og:title" content={fullTitle} />
+<meta property="og:description" property="og:title" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.site} />
+<meta property="og:image" content={image} />
+
+<meta name="twitter:title" content={author} />
+<meta name="twitter:site:id" content={twitterId} />
+<meta name="twitter:creator" content={twitterId} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:card" content="summary_large_image" />

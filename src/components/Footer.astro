@@ -1,0 +1,15 @@
+---
+import { header } from '../config';
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="bg-white dark:bg-black py-12 px-8">
+  <p class="font-mono text-sm font-light text-center dark:text-gray-100">
+    {`© ${currentYear} `}
+    <a class="hover:text-red-500 transition-color" href="/">
+      {`${header.firstName} ${header.lastName}. `}
+    </a>
+    All Rights Reserved.
+  </p>
+</footer>

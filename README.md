@@ -1,2 +1,2 @@
-# My Personal Site Source Code
-imohammadreza.ir website, built by React, Nextjs and Tailwindcss.
+# Personal Site
+imohammadreza.ir website, built by Astro and Tailwindcss.

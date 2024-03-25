@@ -1,0 +1,17 @@
+---
+import PostItem from './PostItem.astro';
+import { fetchAllPosts } from '../request'
+
+const posts = await fetchAllPosts();
+---
+<>
+  {posts.map(({title, link, summary, date}) => (
+    <PostItem
+      title={title}
+      link={link}
+      summary={summary}
+      date={date}
+    />
+  ))}
+</>
+

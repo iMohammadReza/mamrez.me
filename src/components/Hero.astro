@@ -1,0 +1,17 @@
+---
+import { header } from '../config';
+---
+
+<header class="py-48 text-center">
+  <h1
+    class="group relative inline-block font-extralight text-4xl sm:text-6xl md:text-7xl lg:text-8xl dark:text-white select-none"
+  >
+    <b class="font-extrabold inline-block transform duration-300 group-hover:rotate-45 group-hover:translate-x-10 md:group-hover:translate-x-40 group-hover:-translate-y-20 group-hover:scale-50 md:group-hover:scale-25 transition-transform reduce-motion">
+      {header.firstName}
+    </b>
+    <br />
+    {header.lastName}
+    <p class="absolute inset-x-0 top-4 hidden group-hover:block font-mono font-bold text-lg text-red-500">{header.easterText}</p>
+  </h1>
+  <h2 class="font-mono font-light text-lg sm:text-xl md:text-2xl  text-gray-800 dark:text-gray-200 mt-8">{header.jobTitle}</h2>
+</header>

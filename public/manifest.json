@@ -1,8 +1,8 @@
 {
   "name": "MohammadReza Iranmanesh",
-  "short_name": "MohammadReza",
-  "description": "MohammadReza Iranmanesh Personal Website | Frontend Enginner",
-  "categories": ["portfolio", "personal"],
+  "short_name": "MamRez",
+  "description": "MohammadReza Iranmanesh Personal Blog",
+  "categories": ["portfolio", "personal", "blog"],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
