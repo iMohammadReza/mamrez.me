@@ -1,17 +1,58 @@
 ---
-import { header } from '../config';
+import { header } from '../lib/config';
 ---
 
 <header class="py-48 text-center">
   <h1
-    class="group relative inline-block font-extralight text-4xl sm:text-6xl md:text-7xl lg:text-8xl dark:text-white select-none"
+    id="hero-name"
+    class="group relative inline-block text-4xl font-extralight select-none sm:text-6xl dark:text-white"
   >
-    <b class="font-extrabold inline-block transform duration-300 group-hover:rotate-45 group-hover:translate-x-10 md:group-hover:translate-x-40 group-hover:-translate-y-20 group-hover:scale-50 md:group-hover:scale-25 transition-transform reduce-motion">
+    <b
+      class="reduce-motion inline-block transform font-extrabold transition-transform duration-300 group-hover:translate-x-10 group-hover:-translate-y-20 group-hover:scale-50 group-hover:rotate-45 md:group-hover:translate-x-40 md:group-hover:scale-25"
+    >
       {header.firstName}
     </b>
     <br />
     {header.lastName}
-    <p class="absolute inset-x-0 top-4 hidden group-hover:block font-mono font-bold text-lg text-red-500">{header.easterText}</p>
+    <p
+      class="absolute inset-x-0 top-4 hidden font-mono text-lg font-bold text-red-500 group-hover:block"
+    >
+      {header.easterText}
+    </p>
   </h1>
-  <h2 class="font-mono font-light text-lg sm:text-xl md:text-2xl  text-gray-800 dark:text-gray-200 mt-8">{header.jobTitle}</h2>
+  <h2 class="mt-8 font-mono text-lg font-light text-gray-800 sm:text-xl dark:text-gray-200">
+    {header.jobTitle}
+  </h2>
 </header>
+
+<script>
+  const el = document.getElementById('hero-name');
+  el?.addEventListener('click', (e) => {
+    if (!matchMedia('(hover: hover)').matches) {
+      e.preventDefault();
+      el.classList.toggle('hover');
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!el?.contains(e.target as Node)) {
+      el?.classList.remove('hover');
+    }
+  });
+</script>
+
+<style>
+  #hero-name.hover > b {
+    rotate: 45deg;
+    translate: 2.5rem -5rem;
+    scale: 0.5;
+  }
+  @media (min-width: 768px) {
+    #hero-name.hover > b {
+      translate: 10rem -5rem;
+      scale: 0.25;
+    }
+  }
+  #hero-name.hover > p {
+    display: block;
+  }
+</style>

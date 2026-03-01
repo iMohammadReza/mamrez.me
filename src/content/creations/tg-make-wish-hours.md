@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Make A Wish'
 url: ''
 date: 2017

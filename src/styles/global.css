@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+/* Dark mode via .darkmode class (same as v3 config) */
+@custom-variant dark (&:where(.darkmode, .darkmode *));
+
+@theme {
+  --font-sans: 'EB Garamond', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --breakpoint-sm: 690px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --scale-25: 0.25;
+  --scale-50: 0.5;
+  --scale-105: 1.05;
+}

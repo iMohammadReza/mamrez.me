@@ -1,0 +1,16 @@
+# Build
+dist
+.astro
+
+# Dependencies
+node_modules
+
+# Lockfiles
+bun.lock
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Generated / cache
+*.min.js
+*.min.css

@@ -1,13 +1,13 @@
 ---
-import { header } from '../config';
+import { header } from '../lib/config';
 
-const currentYear = new Date().getFullYear()
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-white dark:bg-black py-12 px-8">
-  <p class="font-mono text-sm font-light text-center dark:text-gray-100">
+<footer class="bg-white px-8 py-12 dark:bg-black">
+  <p class="text-center font-mono text-sm font-light dark:text-gray-100">
     {`© ${currentYear} `}
-    <a class="hover:text-red-500 transition-color" href="/">
+    <a class="transition-colors hover:text-red-500" href="/">
       {`${header.firstName} ${header.lastName}. `}
     </a>
     All Rights Reserved.

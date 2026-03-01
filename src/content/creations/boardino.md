@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Boardino (also Helli-Board)'
 url: 'boardino-app.ir'
 date: 2014

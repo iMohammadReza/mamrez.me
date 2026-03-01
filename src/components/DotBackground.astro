@@ -1,0 +1,146 @@
+---
+
+---
+
+<canvas id="dot-background" class="dot-bg-canvas" aria-hidden="true" transition:persist></canvas>
+
+<script>
+  (function () {
+    const canvas = document.getElementById('dot-background') as HTMLCanvasElement;
+    if (!canvas) return;
+    if (canvas.dataset.initialized) return;
+    canvas.dataset.initialized = 'true';
+
+    const GRID_SIZE = 20;
+    const BASE_RADIUS = 1;
+    const BREATH_MIN = 0.8;
+    const BREATH_MAX = 1.2;
+    const BREATH_SPEED = 0.0015;
+    const RIPPLE_RADIUS = 100;
+    const RIPPLE_STRENGTH = 8;
+    const RIPPLE_LERP = 0.06;
+
+    const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let ctx: CanvasRenderingContext2D | null = null;
+    let dots: { x: number; y: number; rx: number; ry: number }[] = [];
+    let width = 0;
+    let height = 0;
+    let mouseX = -1e4;
+    let mouseY = -1e4;
+    const lightBg = 'rgba(255,255,255,0.4)';
+    const lightDot = '#999';
+    const darkBg = 'rgba(0,0,0,0.95)';
+    const darkDot = '#444';
+
+    function isDark() {
+      return document.body.classList.contains('darkmode');
+    }
+    function getDotColor() {
+      return isDark() ? darkDot : lightDot;
+    }
+    function getBgColor() {
+      return isDark() ? darkBg : lightBg;
+    }
+
+    function buildGrid() {
+      dots = [];
+      const cols = Math.ceil(width / GRID_SIZE) + 2;
+      const rows = Math.ceil(height / GRID_SIZE) + 2;
+      for (let i = -1; i <= cols; i++) {
+        for (let j = -1; j <= rows; j++) {
+          dots.push({
+            x: i * GRID_SIZE,
+            y: j * GRID_SIZE,
+            rx: 0,
+            ry: 0,
+          });
+        }
+      }
+    }
+
+    function draw() {
+      if (!ctx || !width || !height) return;
+
+      ctx.fillStyle = getBgColor();
+      ctx.fillRect(0, 0, width, height);
+
+      const t = Date.now();
+      const reduceMotion = prefersReducedMotion();
+      const breathing = reduceMotion
+        ? 1
+        : BREATH_MIN + (BREATH_MAX - BREATH_MIN) * 0.5 * (1 + Math.sin(t * BREATH_SPEED));
+      const baseR = BASE_RADIUS * breathing;
+
+      for (const d of dots) {
+        if (!reduceMotion) {
+          const distToMouse = Math.hypot(d.x + d.rx - mouseX, d.y + d.ry - mouseY);
+          let targetRx = 0;
+          let targetRy = 0;
+          if (distToMouse < RIPPLE_RADIUS && distToMouse > 0) {
+            const force = (1 - distToMouse / RIPPLE_RADIUS) * RIPPLE_STRENGTH;
+            const nx = (d.x + d.rx - mouseX) / distToMouse;
+            const ny = (d.y + d.ry - mouseY) / distToMouse;
+            targetRx = nx * force;
+            targetRy = ny * force;
+          }
+          d.rx += (targetRx - d.rx) * RIPPLE_LERP;
+          d.ry += (targetRy - d.ry) * RIPPLE_LERP;
+        }
+
+        const px = d.x + d.rx;
+        const py = d.y + d.ry;
+        const r = reduceMotion
+          ? BASE_RADIUS
+          : baseR * (0.9 + 0.2 * Math.sin(t * 0.002 + d.x * 0.02 + d.y * 0.02));
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, Math.PI * 2);
+        ctx.fillStyle = getDotColor();
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.scale(dpr, dpr);
+      }
+      buildGrid();
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    document.addEventListener('mouseleave', () => {
+      mouseX = -1e4;
+      mouseY = -1e4;
+    });
+    resize();
+    draw();
+
+    window.addEventListener('resize', () => {
+      resize();
+    });
+  })();
+</script>
+
+<style>
+  .dot-bg-canvas {
+    position: fixed;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+</style>
