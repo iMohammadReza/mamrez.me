@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Meme Guy Telegram Bot'
 url: 't.me/memeguybot'
 date: 2020

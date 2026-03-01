@@ -1,33 +1,75 @@
 ---
 interface Props {
-	pageTitle?: string;
+  pageTitle?: string;
 }
 
-const { pageTitle } = Astro.props
+const { pageTitle } = Astro.props;
 
-const author = "MohammadReza Iranmanesh";
+const author = 'MohammadReza Iranmanesh';
 const description = 'MohammadReza Iranmanesh Personal Blog';
 const fullTitle = pageTitle ? `${pageTitle} - ${author}` : author;
-const image = `${Astro.site}favicon/apple-touch-icon.png`
-const twitterId = "@unclemamrez";
+const image = `${Astro.site}favicon/apple-touch-icon.png`;
+const twitterId = '@unclemamrez';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <title>{fullTitle}</title>
 
+<link rel="canonical" href={canonicalUrl} />
+
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 <meta name="author" content={author} />
-<meta name="keywords" content="MohammadReza, Iranmanesh, MamRez, UncleMamrez, Uncle Mamrez, Manesh, portfolio, resume, front-end, frontend, engineer, react" />
+<meta
+  name="keywords"
+  content="MohammadReza, Iranmanesh, MamRez, UncleMamrez, Uncle Mamrez, Manesh, portfolio, resume, front-end, frontend, engineer, react"
+/>
 
-<meta property="og:title" property="og:title" content={fullTitle} />
-<meta property="og:description" property="og:title" content={description} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.site} />
+<meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={image} />
+<meta property="og:locale" content="en_US" />
 
-<meta name="twitter:title" content={author} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:site:id" content={twitterId} />
 <meta name="twitter:creator" content={twitterId} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
-<meta name="twitter:card" content="summary_large_image" />
+
+{
+  !pageTitle && (
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'WebSite',
+            '@id': `${Astro.site}#website`,
+            url: Astro.site,
+            name: author,
+            description,
+            publisher: { '@id': `${Astro.site}#person` },
+          },
+          {
+            '@type': 'Person',
+            '@id': `${Astro.site}#person`,
+            name: author,
+            url: Astro.site,
+            sameAs: [
+              'https://twitter.com/unclemamrez',
+              'https://t.me/unclemamrez',
+              'https://github.com/iMohammadReza',
+              'https://www.linkedin.com/in/mohammadrezairanmanesh/',
+              'https://imohammadreza.medium.com/',
+            ],
+          },
+        ],
+      })}
+    />
+  )
+}

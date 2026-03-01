@@ -1,8 +1,8 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
-title: 'Earth Quake Detector'
+layout: ../../layouts/CreationsLayout.astro
+title: 'Earthquake Detector'
 url: ''
 date: 2011
 status: Stopped
-body: 'Simple motion detector that start alerts on earth quakes'
+body: 'Simple motion detector that starts alerts on earthquakes'
 ---

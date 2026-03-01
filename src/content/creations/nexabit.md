@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Nexabit'
 url: 't.me/Nexabit_bot'
 date: 2020

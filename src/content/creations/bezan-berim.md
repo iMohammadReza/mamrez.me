@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Bezan Berim'
 url: ''
 date: 2018

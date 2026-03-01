@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://imohammadreza.ir/sitemap-index.xml
+Sitemap: https://mamrez.me/sitemap-index.xml

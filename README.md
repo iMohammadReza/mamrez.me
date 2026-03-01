@@ -1,2 +1,3 @@
 # Personal Site
-imohammadreza.ir website, built by Astro and Tailwindcss.
+
+mamrez.me website, built by Astro and Tailwind CSS.

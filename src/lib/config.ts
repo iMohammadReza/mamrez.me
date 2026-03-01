@@ -1,22 +1,13 @@
-import type { Social } from './types'
-
-export const mediumRSSSource = 'https://medium.com/feed/@imohammadreza';
-export const virgoolRSSSourse = 'https://virgool.io/feed/@imohammadreza';
-export const themeLocalStorageKey = 'THEME_SETTING_IS_DARK';
+import type { Social } from './types';
 
 export const header = {
   firstName: 'MohammadReza',
   lastName: 'Iranmanesh',
-  jobTitle: 'Front-end Engineer',
+  jobTitle: 'Product Engineer',
   easterText: 'Aka MamRez',
 };
 
 export const socials = [
- {
-    title: 'Twitter',
-    link: 'https://twitter.com/unclemamrez',
-    iconName: 'mdi:twitter',
-  },
   {
     title: 'Telegram',
     link: 'https://t.me/unclemamrez',
@@ -29,11 +20,11 @@ export const socials = [
   },
   {
     title: 'Instagram',
-    link: 'https://www.instagram.com/unclemamrez/',
+    link: 'https://www.instagram.com/mamrez.me/',
     iconName: 'mdi:instagram',
   },
   {
-    title: 'Github',
+    title: 'GitHub',
     link: 'https://github.com/iMohammadReza',
     iconName: 'mdi:github',
   },

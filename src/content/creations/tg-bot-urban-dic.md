@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/CreactionsLayout.astro
+layout: ../../layouts/CreationsLayout.astro
 title: 'Urban Dictionary Telegram Bot'
 url: 't.me/urbandcbot'
 date: 2020
