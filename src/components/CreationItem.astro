@@ -18,9 +18,9 @@ const { i, body, title, status, date, url } = Astro.props;
   <h2 class="text-2xl font-extrabold">
     <span class="mr-2 font-mono text-sm font-normal italic">#{i} </span>
     {title}
-    <span class="text-sm font-normal italic">/ {date}</span>
+    <span class="font-mono text-sm font-normal italic">/ {date}</span>
   </h2>
-  <p class="py-2 font-light">{body}</p>
+  <p class="mt-2 mb-6 font-mono text-sm font-light text-gray-700 dark:text-gray-300">{body}</p>
   <Chip>{status}</Chip>
   {
     url && (
