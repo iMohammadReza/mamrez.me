@@ -1,5 +1,7 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { mediumLoader } from './lib/medium-loader';
 
 const creationCollection = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/creations' }),
@@ -12,6 +14,11 @@ const creationCollection = defineCollection({
   }),
 });
 
+const postCollection = defineCollection({
+  loader: mediumLoader('https://medium.com/feed/@imohammadreza'),
+});
+
 export const collections = {
   creations: creationCollection,
+  posts: postCollection,
 };

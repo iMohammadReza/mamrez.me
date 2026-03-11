@@ -1,6 +1,5 @@
 import type { Social } from './types';
 
-export const mediumRSSSource = 'https://medium.com/feed/@imohammadreza';
 export const themeLocalStorageKey = 'THEME_SETTING_IS_DARK';
 
 export const header = {

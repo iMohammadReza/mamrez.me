@@ -4,8 +4,8 @@
 @custom-variant dark (&:where(.darkmode, .darkmode *));
 
 @theme {
-  --font-sans: 'EB Garamond', 'Georgia', serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-sans: var(--font-eb-garamond);
+  --font-mono: var(--font-jetbrains-mono);
   --breakpoint-sm: 690px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;

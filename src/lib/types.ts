@@ -3,10 +3,3 @@ export type Social = {
   link: string;
   iconName: string;
 };
-
-export type Post = {
-  title: string;
-  link: string;
-  date: string;
-  summary: string;
-};

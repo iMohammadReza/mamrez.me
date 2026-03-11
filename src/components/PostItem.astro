@@ -1,8 +1,12 @@
 ---
 import { Icon } from 'astro-icon/components';
-import type { Post } from '../lib/types';
 
-export type Props = Post;
+interface Props {
+  title: string;
+  link: string;
+  date: string;
+  summary: string;
+}
 
 const { title, link, summary, date: rawDate } = Astro.props;
 const date = new Date(rawDate);

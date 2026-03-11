@@ -1,13 +1,15 @@
 ---
+import { getCollection } from 'astro:content';
 import PostItem from './PostItem.astro';
-import { fetchAllPosts } from '../lib/posts';
 
-const posts = await fetchAllPosts();
+const posts = (await getCollection('posts')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
 ---
 
 <>
   {
-    posts.map(({ title, link, summary, date }) => (
+    posts.map(({ data: { title, link, summary, date } }) => (
       <PostItem title={title} link={link} summary={summary} date={date} />
     ))
   }
