@@ -35,6 +35,7 @@ export default defineConfig({
       ],
       scriptDirective: {
         resources: ["'self'", 'https://scripts.simpleanalyticscdn.com'],
+        hashes: ['sha256-xr0UP8q3ZPDLO1peuoiNCmmfZEfFF+d6j/ttS1CiDBU='],
       },
     },
   },

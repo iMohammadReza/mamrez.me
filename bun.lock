@@ -12,7 +12,6 @@
         "@iconify-json/mdi": "^1.2.3",
         "@iconify-json/pixelarticons": "^1.2.4",
         "@tailwindcss/vite": "^4.2.1",
-        "accessible-astro-components": "^2.4.0",
         "astro": "6.0.2",
         "astro-icon": "^1.1.5",
         "eslint": "^9.20.0",
@@ -436,8 +435,6 @@
     "@vscode/emmet-helper": ["@vscode/emmet-helper@2.11.0", "", { "dependencies": { "emmet": "^2.4.3", "jsonc-parser": "^2.3.0", "vscode-languageserver-textdocument": "^1.0.1", "vscode-languageserver-types": "^3.15.1", "vscode-uri": "^3.0.8" } }, "sha512-QLxjQR3imPZPQltfbWRnHU6JecWTF1QSWhx3GAKQpslx7y3Dp6sIIXhKjiUJ/BR9FX8PVthjr9PD6pNwOJfAzw=="],
 
     "@vscode/l10n": ["@vscode/l10n@0.0.18", "", {}, "sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ=="],
-
-    "accessible-astro-components": ["accessible-astro-components@2.4.0", "", {}, "sha512-1YsiGHPySbwDVodpsSDS3ckOc4aSnv81YKFF6jsM+DRKCHqizKyVPgzzlFUsj+7dix0MJ4d5Qs7tiR/AG4BJbg=="],
 
     "acorn": ["acorn@8.16.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw=="],
 

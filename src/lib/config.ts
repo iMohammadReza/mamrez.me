@@ -1,7 +1,5 @@
 import type { Social } from './types';
 
-export const themeLocalStorageKey = 'THEME_SETTING_IS_DARK';
-
 export const header = {
   firstName: 'MohammadReza',
   lastName: 'Iranmanesh',

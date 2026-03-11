@@ -34,7 +34,7 @@
     const darkDot = '#444';
 
     function isDark() {
-      return document.body.classList.contains('darkmode');
+      return document.documentElement.classList.contains('darkmode');
     }
     function getDotColor() {
       return isDark() ? darkDot : lightDot;

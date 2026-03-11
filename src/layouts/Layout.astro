@@ -2,10 +2,10 @@
 import '../styles/global.css';
 import { Font } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
-import { DarkMode } from 'accessible-astro-components';
 import SiteMeta from '../components/SiteMeta.astro';
 import Footer from '../components/Footer.astro';
 import DotBackground from '../components/DotBackground.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title?: string;
@@ -34,12 +34,13 @@ const { title, footerLess = false } = Astro.props;
     <link rel="manifest" href="/manifest.json" />
     <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
     <SiteMeta pageTitle={title} />
+    <script is:inline>(function(){var k="THEME_SETTING_IS_DARK",s=localStorage.getItem(k);var d=s==="dark"||(s!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("darkmode",d)})()</script>
   </head>
   <body class="flex h-screen flex-col">
     <DotBackground />
     <main id="main-content" class="flex-1">
-      <span class="theme-toggle-wrapper">
-        <DarkMode />
+      <span class="fixed top-4 right-4 z-50">
+        <ThemeToggle />
       </span>
       <slot />
     </main>
@@ -49,10 +50,6 @@ const { title, footerLess = false } = Astro.props;
 </html>
 <style is:global>
   @reference "../styles/global.css";
-
-  .reduce-motion {
-    @apply motion-reduce:transition-none motion-reduce:hover:transform-none;
-  }
 
   .section-title {
     @apply font-sans text-xl font-bold text-red-500 sm:text-2xl;
@@ -76,21 +73,5 @@ const { title, footerLess = false } = Astro.props;
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-red-500;
-  }
-
-  .theme-toggle-wrapper {
-    @apply fixed top-4 right-4 z-50;
-  }
-
-  .theme-toggle-wrapper .darkmode-toggle {
-    @apply flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200/60 bg-white/80 text-gray-700 shadow-[0_2px_10px_rgba(0,0,0,0.08)] backdrop-blur-md transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] active:scale-95 dark:border-gray-700/60 dark:bg-gray-800/80 dark:text-gray-200 dark:shadow-[0_2px_10px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_4px_16px_rgba(0,0,0,0.4)];
-  }
-
-  .theme-toggle-wrapper .darkmode-toggle svg {
-    @apply h-[18px] w-[18px] transition-transform duration-300 ease-out;
-  }
-
-  .theme-toggle-wrapper .darkmode-toggle:hover svg {
-    @apply rotate-12;
   }
 </style>
