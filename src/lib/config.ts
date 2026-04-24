@@ -9,11 +9,6 @@ export const header = {
 
 export const socials = [
   {
-    title: 'Twitter',
-    link: 'https://twitter.com/unclemamrez',
-    iconName: 'mdi:twitter',
-  },
-  {
     title: 'Telegram',
     link: 'https://t.me/unclemamrez',
     iconName: 'mdi:message-fast-outline',
@@ -25,7 +20,7 @@ export const socials = [
   },
   {
     title: 'Instagram',
-    link: 'https://www.instagram.com/unclemamrez/',
+    link: 'https://www.instagram.com/mamrez.me/',
     iconName: 'mdi:instagram',
   },
   {
