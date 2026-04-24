@@ -25,7 +25,7 @@ export const socials = [
   },
   {
     title: 'Instagram',
-    link: 'https://www.instagram.com/unclemamrez/',
+    link: 'https://www.instagram.com/mamrez.me/',
     iconName: 'mdi:instagram',
   },
   {
