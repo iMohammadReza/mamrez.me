@@ -1,29 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import WaveDivider from '../components/WaveDivider.astro';
-import Creations from '../components/Creations.astro';
-import Playlists from '../components/Playlists.astro';
-import Contact from '../components/Contact.astro';
-import Posts from '../components/Posts.astro';
+import ProfileHeader from '../components/ProfileHeader.astro';
+import Intro from '../components/Intro.astro';
+import Highlights from '../components/Highlights.astro';
+import ProjectList from '../components/ProjectList.astro';
+import WritingList from '../components/WritingList.astro';
+import MusicList from '../components/MusicList.astro';
+import WorkList from '../components/WorkList.astro';
 ---
 
 <Layout>
-  <div>
-    <Hero />
-    <WaveDivider />
-    <div class="bg-white dark:bg-black">
-      <div class="px-8 py-16 lg:mx-auto lg:flex lg:max-w-6xl lg:flex-row-reverse">
-        <aside class="lg:max-w-xs" aria-label="Creations, playlists and contact">
-          <Creations />
-          <Playlists />
-          <Contact />
-        </aside>
-        <div class="flex-1 lg:mr-24">
-          <h2 class="section-title mb-4">Recently Published</h2>
-          <Posts />
-        </div>
-      </div>
-    </div>
-  </div>
+  <section
+    aria-labelledby="profile-name"
+    class="page-shell relative mx-auto max-w-[34.375rem] pt-16 pb-8 sm:pt-20"
+  >
+    <ProfileHeader />
+    <Intro />
+  </section>
+  <Highlights />
+  <ProjectList />
+  <WritingList />
+  <MusicList />
+  <WorkList />
 </Layout>

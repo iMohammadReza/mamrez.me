@@ -1,17 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { NotFound } from '../components/react/NotFound';
 ---
 
 <Layout title="404" footerLess>
-  <section
-    class="flex h-full w-full flex-col justify-center py-20 text-center font-light dark:text-white"
-  >
-    <h1 class="mb-8 text-4xl font-extrabold sm:text-6xl md:text-7xl lg:text-8xl">404</h1>
-    <p>
-      Seems you're lost, back to <a
-        href="/"
-        class="underline underline-offset-8 transition-colors hover:text-red-500">home</a
-      >
-    </p>
+  <section class="page-shell mx-auto flex min-h-dvh max-w-[34.375rem] flex-col items-start justify-center py-20">
+    <p class="text-ink-muted mb-6 font-mono text-[10px] tracking-[0.14em] uppercase">Error / 404</p>
+    <NotFound client:load />
   </section>
 </Layout>

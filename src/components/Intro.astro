@@ -1,0 +1,42 @@
+---
+import { intro } from '../lib/site';
+import Reveal from './Reveal.astro';
+
+/** Tiny inline markup: **bold** → emphasised ink text, [label](href) → underlined link. */
+function render(text: string) {
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return esc(text)
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-ink font-[500]">$1</strong>')
+    .replace(
+      /\[(.+?)\]\((.+?)\)/g,
+      (_m, label: string, href: string) =>
+        `<a href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noreferrer noopener"' : ''} class="intro-link">${label}</a>`
+    );
+}
+---
+
+<Reveal
+  eager
+  delay={0.08}
+  class="text-ink-muted mt-8 space-y-4 text-sm leading-5 tracking-[-0.0064em]"
+>
+  {intro.map((p) => (
+    <p set:html={render(p)} />
+  ))}
+</Reveal>
+
+<style>
+  @reference '../styles/global.css';
+
+  :global(.intro-link) {
+    @apply text-ink relative inline-block font-[500];
+  }
+  :global(.intro-link)::after {
+    content: '';
+    @apply bg-ink absolute inset-x-0 -bottom-px h-px origin-left rounded-full opacity-40 transition-[opacity,transform] duration-300;
+  }
+  :global(.intro-link:hover)::after {
+    @apply opacity-100;
+  }
+</style>

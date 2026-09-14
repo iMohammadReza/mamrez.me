@@ -1,0 +1,14 @@
+---
+/** Custom page scrollbar; src/lib/smooth-scroll.ts drives it and Lenis. */
+---
+
+<div id="page-scrollbar" class="page-scrollbar" aria-hidden="true" hidden>
+  <div class="page-scrollbar-thumb"></div>
+</div>
+
+<script>
+  import { initSmoothScroll } from '../lib/smooth-scroll';
+  const bar = document.getElementById('page-scrollbar');
+  const thumb = bar?.firstElementChild;
+  if (bar instanceof HTMLElement && thumb instanceof HTMLElement) initSmoothScroll(bar, thumb);
+</script>

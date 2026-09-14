@@ -1,4 +1,6 @@
 ---
+import { moreProfiles, socials } from '../lib/site';
+
 interface Props {
   pageTitle?: string;
 }
@@ -6,10 +8,11 @@ interface Props {
 const { pageTitle } = Astro.props;
 
 const author = 'MohammadReza Iranmanesh';
-const description = 'MohammadReza Iranmanesh Personal Blog';
+const description =
+  'MohammadReza Iranmanesh (MamRez) — full-stack product engineer building AI product surfaces, design systems and side projects. Portfolio, work and writing.';
 const fullTitle = pageTitle ? `${pageTitle} - ${author}` : author;
 const image = `${Astro.site}favicon/apple-touch-icon.png`;
-const twitterId = '@unclemamrez';
+const twitterId = '@notmamrez';
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -22,7 +25,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 <meta name="author" content={author} />
 <meta
   name="keywords"
-  content="MohammadReza, Iranmanesh, MamRez, UncleMamrez, Uncle Mamrez, Manesh, portfolio, resume, front-end, frontend, engineer, react"
+  content="MohammadReza, Iranmanesh, MamRez, UncleMamrez, Uncle Mamrez, portfolio, resume, product engineer, full-stack, frontend, react, typescript, AI"
 />
 
 <meta property="og:title" content={fullTitle} />
@@ -39,37 +42,33 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
 
-{
-  !pageTitle && (
-    <script
-      type="application/ld+json"
-      is:inline
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'WebSite',
-            '@id': `${Astro.site}#website`,
-            url: Astro.site,
-            name: author,
-            description,
-            publisher: { '@id': `${Astro.site}#person` },
-          },
-          {
-            '@type': 'Person',
-            '@id': `${Astro.site}#person`,
-            name: author,
-            url: Astro.site,
-            sameAs: [
-              'https://twitter.com/unclemamrez',
-              'https://t.me/unclemamrez',
-              'https://github.com/iMohammadReza',
-              'https://www.linkedin.com/in/mohammadrezairanmanesh/',
-              'https://imohammadreza.medium.com/',
-            ],
-          },
-        ],
-      })}
-    />
-  )
-}
+{!pageTitle && (
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': `${Astro.site}#website`,
+          url: Astro.site,
+          name: author,
+          description,
+          publisher: { '@id': `${Astro.site}#person` },
+        },
+        {
+          '@type': 'Person',
+          '@id': `${Astro.site}#person`,
+          name: author,
+          url: Astro.site,
+          sameAs: [
+            ...socials.filter((s) => !s.href.startsWith('mailto:')).map((s) => s.href),
+            ...moreProfiles,
+          ],
+          jobTitle: 'Full-Stack Product Engineer',
+        },
+      ],
+    })}
+  ></script>
+)}

@@ -1,8 +1,6 @@
 ---
-layout: ../../layouts/CreationsLayout.astro
 title: 'Nexabit'
 url: 't.me/Nexabit_bot'
 date: 2020
-status: Stopped
-body: 'Telegram based platform for selling VIP crypto trading signals'
+body: 'A Telegram platform for selling and delivering VIP crypto trading signals to subscribers'
 ---

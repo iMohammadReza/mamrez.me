@@ -1,0 +1,37 @@
+---
+/**
+ * Hand-written section title (Caveat) that writes itself in when scrolled into
+ * view. `eager` (first viewport) starts the write-in at first paint.
+ */
+interface Props {
+  id: string;
+  class?: string;
+  eager?: boolean;
+}
+const { id, class: className, eager = false } = Astro.props;
+
+// The write-in duration scales with the number of characters.
+const chars = (await Astro.slots.render('default')).replace(/<[^>]*>/g, '').trim().length;
+const duration = Math.min(2.4, 0.5 + chars * 0.12);
+---
+
+<h2
+  id={id}
+  data-hand
+  data-hand-eager={eager || undefined}
+  style={`--hand-duration:${duration}s`}
+  class:list={[
+    'hand-title font-hand relative inline-block text-4xl leading-none font-medium',
+    className,
+  ]}
+>
+  <span class="hand-text inline-block">
+    <slot />
+  </span>
+  <span class="hand-pen" aria-hidden="true"></span>
+</h2>
+
+<script>
+  import { initHandwriting } from '../lib/handwriting';
+  initHandwriting();
+</script>

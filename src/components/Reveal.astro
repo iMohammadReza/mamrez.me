@@ -1,0 +1,40 @@
+---
+/**
+ * Wraps a block that fades/blurs in when scrolled into view.
+ * `delay` (seconds) staggers siblings; `strong` uses the footer's larger offset.
+ * `eager` is for blocks in the first viewport: the entrance runs as a CSS
+ * animation from first paint instead of waiting for src/lib/reveal.ts.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  as?: 'div' | 'section' | 'article' | 'footer' | 'header' | 'li';
+  delay?: number;
+  strong?: boolean;
+  eager?: boolean;
+}
+
+const {
+  as: Tag = 'div',
+  delay = 0,
+  strong = false,
+  eager = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<Tag
+  data-reveal={strong ? 'strong' : ''}
+  data-reveal-eager={eager || undefined}
+  style={delay ? `--reveal-delay:${delay}s` : undefined}
+  class={className}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<script>
+  import { initReveal } from '../lib/reveal';
+  initReveal();
+</script>

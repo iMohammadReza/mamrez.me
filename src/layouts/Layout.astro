@@ -1,11 +1,10 @@
 ---
 import '../styles/global.css';
 import { Font } from 'astro:assets';
-import { ClientRouter } from 'astro:transitions';
 import SiteMeta from '../components/SiteMeta.astro';
 import Footer from '../components/Footer.astro';
-import DotBackground from '../components/DotBackground.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import InkTrail from '../components/InkTrail.astro';
+import SmoothScroll from '../components/SmoothScroll.astro';
 
 interface Props {
   title?: string;
@@ -17,70 +16,30 @@ const { title, footerLess = false } = Astro.props;
 
 <html lang="en" dir="ltr">
   <head>
-    <ClientRouter />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index, follow" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <Font cssVariable="--font-eb-garamond" preload />
-    <Font cssVariable="--font-jetbrains-mono" preload />
-    <meta name="theme-color" content="#000000" />
-    <meta name="msapplication-TileColor" content="#da532c" />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-plex-mono" />
+    <Font cssVariable="--font-caveat" preload />
+    <meta name="theme-color" content="#0d0d0c" />
+    <meta name="msapplication-TileColor" content="#0d0d0c" />
     <link rel="icon" href="/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#0d0d0c" />
     <SiteMeta pageTitle={title} />
-    <script is:inline>
-      (function () {
-        var k = 'THEME_SETTING_IS_DARK',
-          s = localStorage.getItem(k);
-        var d =
-          s === 'dark' ||
-          (s !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.classList.toggle('darkmode', d);
-      })();
-    </script>
   </head>
-  <body class="flex h-screen flex-col">
-    <DotBackground />
-    <main id="main-content" class="flex-1">
-      <span class="fixed top-4 right-4 z-50">
-        <ThemeToggle />
-      </span>
+  <body class="bg-canvas text-ink font-sans antialiased">
+    <InkTrail />
+    <main id="main-content" class="relative z-[1]">
       <slot />
     </main>
     {!footerLess && <Footer />}
+    <SmoothScroll />
     <script is:inline async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
   </body>
 </html>
-<style is:global>
-  @reference "../styles/global.css";
-
-  .section-title {
-    @apply font-sans text-xl font-bold text-red-500 sm:text-2xl;
-  }
-
-  ::selection {
-    @apply bg-red-500 text-gray-100;
-  }
-
-  ::-webkit-scrollbar {
-    @apply h-2 w-2;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-red-500;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-black;
-  }
-
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-red-500;
-  }
-</style>

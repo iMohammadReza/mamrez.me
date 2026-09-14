@@ -8,8 +8,11 @@ const creationCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     url: z.string().optional(),
+    github: z.string().optional(),
     date: z.number(),
-    status: z.enum(['Running', 'Stopped']),
+    /** Live indicator; only set on the projects that should show one. */
+    status: z.enum(['Running', 'Stopped']).optional(),
+    badge: z.enum(['New']).optional(),
     body: z.string(),
   }),
 });

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from './SectionTitle.astro';
+import Reveal from './Reveal.astro';
+import WritingRow from './WritingRow.astro';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+{posts.length > 0 && (
+  <section
+    aria-labelledby="writing-title"
+    class="page-shell mx-auto max-w-[34.375rem] py-8 sm:py-10"
+  >
+    <div class="mb-4">
+      <SectionTitle id="writing-title">Writing</SectionTitle>
+    </div>
+    <div class="border-highlight-line flex flex-col border-t">
+      {posts.map((post, i) => (
+        <Reveal as="article" delay={i * 0.06}>
+          <WritingRow {...post.data} />
+        </Reveal>
+      ))}
+    </div>
+  </section>
+)}

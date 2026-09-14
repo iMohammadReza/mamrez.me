@@ -1,8 +1,5 @@
 ---
-layout: ../../layouts/CreationsLayout.astro
 title: 'Baje'
-url: 'baje-app.ir/business/corazon'
 date: 2021
-status: Stopped
-body: 'A subscription and time management SaaS for gyms and beauty salons!'
+body: 'A reservation and subscription SaaS for gyms and beauty salons, co-founded as technical founder and grown to 1K users'
 ---

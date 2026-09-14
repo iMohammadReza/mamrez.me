@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import { playlists } from '../lib/site';
+import SectionTitle from './SectionTitle.astro';
+import Reveal from './Reveal.astro';
+
+/**
+ * Each playlist renders as a lightweight façade (cover + title + play) and only
+ * swaps in Spotify's ~1MB embed when clicked. Cover art and titles come from
+ * Spotify's oEmbed endpoint at build time; if that's unreachable the card
+ * falls back to the local title without art.
+ */
+interface Embed {
+  title: string;
+  thumbnail?: string;
+}
+
+async function fetchEmbed(id: string): Promise<Embed | null> {
+  const url = `https://open.spotify.com/oembed?url=https://open.spotify.com/playlist/${id}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    const data = (await res.json()) as { title?: string; thumbnail_url?: string };
+    if (!data.title) throw new Error('no title in response');
+    return { title: data.title, thumbnail: data.thumbnail_url };
+  } catch (err) {
+    console.warn(`[music] Spotify oEmbed failed for ${id}: ${(err as Error).message}`);
+    return null;
+  }
+}
+
+const items = await Promise.all(
+  playlists.map(async (p) => {
+    const embed = await fetchEmbed(p.id);
+    return {
+      id: p.id,
+      title: embed?.title ?? p.title,
+      thumbnail: embed?.thumbnail,
+      iframeTitle: `${p.title} — Spotify playlist`,
+    };
+  })
+);
+---
+
+<section aria-labelledby="music-title" class="page-shell mx-auto max-w-[34.375rem] py-8 sm:py-10">
+  <div class="mb-4">
+    <SectionTitle id="music-title">Music</SectionTitle>
+  </div>
+  <div class="grid gap-3 sm:grid-cols-2">
+    {items.map((p, i) => (
+      <Reveal
+        delay={i * 0.08}
+        class="bg-highlight ring-highlight-line overflow-hidden rounded-[1rem] ring-1 ring-inset"
+      >
+        <div
+          data-spotify-embed
+          data-src={`https://open.spotify.com/embed/playlist/${p.id}?theme=0`}
+          data-title={p.iframeTitle}
+        >
+          <button
+            type="button"
+            aria-label={`Load the ${p.title} playlist player`}
+            class="group focus-visible:ring-ink focus-visible:ring-offset-canvas flex h-[152px] w-full cursor-pointer items-center gap-4 p-4 text-left outline-none focus-visible:ring-1 focus-visible:ring-offset-4"
+          >
+            <span class="bg-highlight-strong relative size-24 shrink-0 overflow-hidden rounded-[0.6rem]">
+              {p.thumbnail ? (
+                <Image
+                  src={p.thumbnail}
+                  alt=""
+                  width={96}
+                  height={96}
+                  densities={[1, 2, 3]}
+                  format="avif"
+                  loading="lazy"
+                  decoding="async"
+                  class="size-full object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0"
+                />
+              ) : (
+                <span aria-hidden="true" class="absolute inset-0 grid place-items-center">
+                  <span class="font-hand text-ink-muted text-4xl leading-none">
+                    {p.title.charAt(0)}
+                  </span>
+                </span>
+              )}
+              <span class="ring-highlight-line pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset"></span>
+            </span>
+            <span class="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
+              <span class="min-w-0">
+                <span class="block truncate text-sm leading-5 font-[500] tracking-[-0.0064em] transition-opacity duration-200 group-hover:opacity-70">
+                  {p.title}
+                </span>
+                <span class="text-ink-muted mt-1 block font-mono text-[9px] tracking-[0.06em] whitespace-nowrap uppercase">
+                  Playlist · Spotify
+                </span>
+              </span>
+              <span class="flex items-center justify-end">
+                <span class="bg-ink text-canvas flex size-10 items-center justify-center rounded-full transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:scale-105 group-active:scale-95">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 16 16"
+                    class="ml-0.5 size-4"
+                    fill="currentColor"
+                  >
+                    <path d="M5 3.2v9.6a.6.6 0 0 0 .9.52l8-4.8a.6.6 0 0 0 0-1.04l-8-4.8A.6.6 0 0 0 5 3.2Z"></path>
+                  </svg>
+                </span>
+              </span>
+            </span>
+          </button>
+        </div>
+      </Reveal>
+    ))}
+  </div>
+</section>
+
+<script>
+  // Swap the façade for the real embed on first click. The iframe keeps the
+  // façade's 152px height, so nothing below moves.
+  document.querySelectorAll<HTMLElement>('[data-spotify-embed]').forEach((mount) => {
+    mount.querySelector('button')?.addEventListener(
+      'click',
+      () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = mount.dataset.src ?? '';
+        iframe.title = mount.dataset.title ?? '';
+        iframe.width = '100%';
+        iframe.height = '152';
+        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        iframe.className = 'block border-0';
+        mount.replaceChildren(iframe);
+        iframe.focus({ preventScroll: true });
+      },
+      { once: true }
+    );
+  });
+</script>

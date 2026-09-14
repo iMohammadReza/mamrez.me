@@ -1,0 +1,54 @@
+---
+import { getImage } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import avatarSource from '../assets/mamrez.jpg';
+import { headerLinks, profile } from '../lib/site';
+import { ProfileIdentity } from './react/ProfileIdentity';
+import Reveal from './Reveal.astro';
+
+// The tile is 56px; ship it at 1x/2x/3x instead of the 400px original.
+const avatar = await getImage({
+  src: avatarSource,
+  width: 64,
+  height: 64,
+  densities: [1, 2, 3],
+  format: 'avif',
+});
+---
+
+<div class="relative">
+  <ProfileIdentity
+    client:load
+    avatar={avatar.src}
+    avatarSrcSet={avatar.srcSet.attribute}
+    name={profile.name}
+    alias={profile.alias}
+    title={profile.title}
+    easterTitle={profile.easterTitle}
+  />
+  <!-- Below the identity on phones, where the row would overlap the name; floated top-right from sm up. -->
+  <Reveal
+    as="div"
+    eager
+    delay={0.3}
+    class="mt-3 -ml-3 flex items-center gap-1 sm:absolute sm:top-2 sm:right-0 sm:mt-0 sm:ml-0"
+  >
+    {headerLinks.map((s) => (
+      <a
+        href={s.href}
+        title={s.title}
+        aria-label={s.title}
+        target="_blank"
+        rel="noreferrer noopener"
+        class="social-link text-ink-muted hover:bg-highlight hover:text-ink focus-visible:ring-ink focus-visible:ring-offset-canvas flex size-10 items-center justify-center rounded-full transition-colors duration-200 outline-none focus-visible:ring-1 focus-visible:ring-offset-4"
+      >
+        <span class="block size-[1.05rem] overflow-hidden">
+          <span class="social-stack flex flex-col">
+            <Icon name={s.icon} class="size-[1.05rem] shrink-0" aria-hidden="true" />
+            <Icon name={s.icon} class="size-[1.05rem] shrink-0" aria-hidden="true" />
+          </span>
+        </span>
+      </a>
+    ))}
+  </Reveal>
+</div>

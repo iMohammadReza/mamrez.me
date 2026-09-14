@@ -1,8 +1,6 @@
 ---
-layout: ../../layouts/CreationsLayout.astro
 title: 'Make A Wish'
 url: ''
 date: 2017
-status: Stopped
-body: 'Telegram channel that posts automated messages on paired date like 11:11'
+body: 'A Telegram channel that posts automatically at mirrored times like 11:11, so you never miss a wish'
 ---

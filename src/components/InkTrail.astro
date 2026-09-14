@@ -1,0 +1,11 @@
+---
+/** Full-screen canvas behind the page content; see src/lib/ink-trail.ts. */
+---
+
+<canvas id="ink-trail" aria-hidden="true" class="pointer-events-none fixed inset-0 z-0"></canvas>
+
+<script>
+  import { initInkTrail } from '../lib/ink-trail';
+  const canvas = document.getElementById('ink-trail');
+  if (canvas instanceof HTMLCanvasElement) initInkTrail(canvas);
+</script>

@@ -1,8 +1,6 @@
 ---
-layout: ../../layouts/CreationsLayout.astro
 title: 'Bezan Berim'
 url: ''
 date: 2018
-status: Stopped
-body: 'A social media for planning hang-outs!'
+body: 'A social app for planning hang-outs with friends: propose a plan, vote on a time, show up'
 ---

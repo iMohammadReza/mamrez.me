@@ -1,15 +1,498 @@
 @import 'tailwindcss';
 
-/* Dark mode via .darkmode class (same as v3 config) */
-@custom-variant dark (&:where(.darkmode, .darkmode *));
+/* Mouse/trackpad only — hover-driven affordances that touch devices shouldn't get. */
+@custom-variant hover-fine (@media (hover: hover) and (pointer: fine));
 
-@theme {
-  --font-sans: var(--font-eb-garamond);
-  --font-mono: var(--font-jetbrains-mono);
-  --breakpoint-sm: 690px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --scale-25: 0.25;
-  --scale-50: 0.5;
-  --scale-105: 1.05;
+/* ---------- Theme tokens (dark only) ---------- */
+:root {
+  color-scheme: dark;
+  --canvas: #0d0d0c;
+  --ink: #f0efeb;
+  --ink-muted: #8e8d89;
+  --highlight: #181817;
+  --highlight-hover: #1d1d1b;
+  --highlight-strong: #111110;
+  --highlight-panel: #20201e;
+  --highlight-ink: #e8e6e0;
+  --highlight-muted: #777570;
+  --highlight-line: #e8e6e012;
+  --modal-surface: #171716;
+  --modal-backdrop: #00000094;
+  --modal-shadow: 0 32px 100px #00000085, 0 0 0 1px #ffffff0e;
+  --new-mark: #6fd99a;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), SFMono-Regular, Menlo, monospace;
+  --font-hand: var(--font-caveat), 'Comic Sans MS', cursive;
+
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-highlight: var(--highlight);
+  --color-highlight-hover: var(--highlight-hover);
+  --color-highlight-strong: var(--highlight-strong);
+  --color-highlight-panel: var(--highlight-panel);
+  --color-highlight-ink: var(--highlight-ink);
+  --color-highlight-muted: var(--highlight-muted);
+  --color-highlight-line: var(--highlight-line);
+  --color-modal-surface: var(--modal-surface);
+  --color-modal-backdrop: var(--modal-backdrop);
+  --color-new-mark: var(--new-mark);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  /* Mirrors REVEAL_EASE in src/lib/motion.ts. */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-hand: cubic-bezier(0.55, 0.08, 0.45, 0.92);
+  /* Motion springs sampled to CSS linear() (what Motion hands to WAAPI), so the
+     CSS entrances below move exactly like their spring counterparts.
+     spring(stiffness 260, damping 20, mass 0.9) — 700ms */
+  --spring-pop: linear(
+    0,
+    0.1144,
+    0.3521,
+    0.6019,
+    0.8065,
+    0.947,
+    1.0271,
+    1.0611,
+    1.0653,
+    1.0541,
+    1.0374,
+    1.0216,
+    1.0093,
+    1.0014,
+    0.9972,
+    0.9957,
+    0.9958,
+    0.9968,
+    0.9979,
+    0.9989,
+    0.9996,
+    1,
+    1
+  );
+  /* spring(stiffness 140, damping 26, mass 1.2) — 900ms */
+  --spring-settle: linear(
+    0,
+    0.045,
+    0.1454,
+    0.2659,
+    0.387,
+    0.4984,
+    0.596,
+    0.6785,
+    0.7467,
+    0.802,
+    0.8463,
+    0.8814,
+    0.9089,
+    0.9303,
+    0.9469,
+    0.9597,
+    0.9695,
+    0.9769,
+    0.9826,
+    0.9869,
+    0.9902,
+    0.9926,
+    0.9945,
+    0.9959,
+    0.9969,
+    0.9977,
+    0.9983,
+    0.9987,
+    1,
+    1
+  );
+}
+
+/* ---------- Base ---------- */
+html {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  min-height: 100dvh;
+  /* The highlights rail is 100vw wide; clip (not hidden) keeps the page from scrolling sideways
+     without turning body into a scroll container. */
+  overflow-x: clip;
+}
+
+/* ---------- Smooth scroll (Lenis) + custom scrollbar ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* The native bar is replaced by .page-scrollbar. */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+.page-scrollbar {
+  position: fixed;
+  top: 0.5rem;
+  right: 0.25rem;
+  bottom: 0.5rem;
+  z-index: 60;
+  width: 0.875rem; /* wide hit area, thin visible thumb */
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+.page-scrollbar[data-active],
+.page-scrollbar:hover {
+  opacity: 1;
+}
+.page-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  width: 0.1875rem;
+  border-radius: 9999px;
+  background: var(--ink-muted);
+  opacity: 0.55;
+  cursor: grab;
+  will-change: transform;
+  transition:
+    width 0.2s var(--ease-out-expo),
+    opacity 0.2s var(--ease-out-expo);
+}
+.page-scrollbar:hover .page-scrollbar-thumb,
+.page-scrollbar[data-dragging] .page-scrollbar-thumb {
+  width: 0.3125rem;
+  opacity: 0.9;
+}
+.page-scrollbar[data-dragging] .page-scrollbar-thumb {
+  cursor: grabbing;
+}
+@media (pointer: coarse) {
+  .page-scrollbar {
+    pointer-events: none; /* indicator only on touch; the finger scrolls the page */
+  }
+}
+
+::selection {
+  background: var(--highlight-ink);
+  color: var(--canvas);
+}
+
+:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+/* Focus moved by script after a pointer interaction (src/lib/focus.ts): keep
+   the focus, skip the keyboard ring. */
+[data-focus-quiet]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ---------- Layout helpers (mirrors the reference site) ---------- */
+.page-shell {
+  width: min(100% - 2.5rem, 76rem);
+}
+@media (min-width: 640px) {
+  .page-shell {
+    width: min(100% - 5rem, 76rem);
+  }
+}
+
+/* Highlights rail: full-bleed scroller whose first card aligns with the 550px column.
+   Cards snap to that inset; the React rail suspends snapping while it drags or tweens. */
+.highlight-rail {
+  --rail-inset: max(1.25rem, 50vw - 17.1875rem);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--rail-inset);
+}
+.highlight-rail[data-dragging],
+.highlight-rail[data-settling] {
+  scroll-snap-type: none;
+}
+.highlight-rail::-webkit-scrollbar {
+  display: none;
+}
+.highlight-rail[data-dragging],
+.highlight-rail[data-dragging] * {
+  cursor: grabbing !important;
+}
+.highlight-leading-space,
+.highlight-trailing-space {
+  width: var(--rail-inset);
+}
+.highlight-card {
+  width: min(78vw, 17.5rem);
+  scroll-snap-align: start;
+}
+.highlight-card + .highlight-card {
+  margin-left: 0.5rem;
+}
+@media (min-width: 640px) {
+  .highlight-rail {
+    --rail-inset: max(2.5rem, 50vw - 17.1875rem);
+  }
+  .highlight-card {
+    width: 17.5rem;
+  }
+}
+@media (min-width: 1280px) {
+  .highlight-card {
+    width: clamp(17.5rem, -2.5rem + 33.3333vw - 0.333333 * max(2.5rem, 50vw - 17.1875rem), 19.5rem);
+  }
+}
+.highlight-visual {
+  aspect-ratio: 4 / 3.45;
+}
+
+/* Hand-written titles: start clipped and write themselves in — eagerly for the
+   first viewport, otherwise once src/lib/handwriting.ts sees them scroll into view.
+   `--hand-duration` is set per title from its length. */
+.hand-text {
+  clip-path: inset(-25% 100% -25% -6%);
+  padding-right: 0.15em; /* room for the trailing flourish of the last glyph */
+}
+.hand-pen {
+  position: absolute;
+  top: 60%;
+  left: 0;
+  width: 0.14em;
+  height: 0.14em;
+  border-radius: 9999px;
+  background: var(--ink);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+[data-hand-done] .hand-text,
+[data-hand-eager] .hand-text {
+  animation: hand-write var(--hand-duration, 1.5s) var(--ease-hand) both;
+}
+[data-hand-done] .hand-pen,
+[data-hand-eager] .hand-pen {
+  animation:
+    hand-pen-x var(--hand-duration, 1.5s) var(--ease-hand) both,
+    hand-pen-y var(--hand-duration, 1.5s) linear both;
+}
+@keyframes hand-write {
+  from {
+    clip-path: inset(-25% 100% -25% -6%);
+  }
+  to {
+    clip-path: inset(-25% -6% -25% -6%);
+  }
+}
+@keyframes hand-pen-x {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+@keyframes hand-pen-y {
+  0% {
+    top: 62%;
+    opacity: 0;
+  }
+  16.667% {
+    top: 38%;
+    opacity: 1;
+  }
+  33.333% {
+    top: 68%;
+  }
+  50% {
+    top: 42%;
+  }
+  66.667% {
+    top: 64%;
+  }
+  83.333% {
+    top: 48%;
+    opacity: 1;
+  }
+  100% {
+    top: 60%;
+    opacity: 0;
+  }
+}
+
+/* Hero entrance (ProfileIdentity): avatar pop and name/title stagger run as CSS
+   animations from first paint, before React or Motion have loaded. */
+.hero-avatar-in {
+  animation: hero-avatar-in 700ms var(--spring-pop) 50ms both;
+}
+@keyframes hero-avatar-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-10deg);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0px);
+  }
+}
+/* One unit (word or character) of TextRevealCss; `--tr-delay` staggers them,
+   `--tr-y` / `--tr-blur` come from the root element. */
+.tr-unit {
+  display: inline-block;
+  white-space: pre; /* keeps a unit's trailing space from collapsing */
+  will-change: transform;
+  animation:
+    tr-y 900ms var(--spring-settle) var(--tr-delay, 0s) both,
+    tr-fade 700ms var(--ease-out-expo) var(--tr-delay, 0s) both,
+    tr-unblur 900ms var(--ease-out-expo) var(--tr-delay, 0s) both;
+}
+@keyframes tr-y {
+  from {
+    transform: translateY(var(--tr-y, 40%));
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes tr-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes tr-unblur {
+  from {
+    filter: blur(var(--tr-blur, 12px));
+  }
+  to {
+    filter: blur(0px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hand-text {
+    clip-path: none;
+  }
+  .hand-pen {
+    display: none;
+  }
+}
+
+/* Icon buttons whose glyph slides up on hover (header + footer socials). */
+.social-stack {
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.social-link:hover .social-stack,
+.social-link:focus-visible .social-stack {
+  transform: translateY(-50%);
+}
+
+/* Modal scroll region */
+.project-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--highlight-line) transparent;
+}
+
+/* Without JavaScript nothing would ever un-hide: the reveal blocks, the clipped
+   hand titles and Motion's SSR'd `opacity:0` initial styles all wait on a script.
+   Show everything in its final state instead. */
+@media (scripting: none) {
+  [data-reveal],
+  [style*='opacity:0'] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .hand-text {
+    clip-path: none !important;
+  }
+  .hand-pen {
+    display: none;
+  }
+}
+
+/* Reveal blocks start hidden. Eager ones (first viewport) animate in from first
+   paint; the rest transition in once src/lib/reveal.ts flags them as in view.
+   `--reveal-delay` staggers siblings. */
+[data-reveal] {
+  --reveal-blur: 4px;
+  --reveal-y: 10px;
+  --reveal-delay: 0s;
+  opacity: 0;
+  filter: blur(var(--reveal-blur));
+  transform: translateY(var(--reveal-y));
+  will-change: opacity, filter, transform;
+}
+[data-reveal='strong'] {
+  --reveal-blur: 5px;
+  --reveal-y: 12px;
+}
+[data-reveal][data-revealed] {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0px);
+  transition:
+    opacity 0.7s var(--ease-reveal) var(--reveal-delay),
+    filter 0.7s var(--ease-reveal) var(--reveal-delay),
+    transform 0.7s var(--ease-reveal) var(--reveal-delay);
+  will-change: auto;
+}
+[data-reveal][data-reveal-eager] {
+  animation: reveal-in 0.7s var(--ease-reveal) var(--reveal-delay) both;
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    filter: blur(var(--reveal-blur));
+    transform: translateY(var(--reveal-y));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  *,
+  ::before,
+  ::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

@@ -9,6 +9,7 @@ export function mediumLoader(feedUrl: string) {
       link: z.string(),
       date: z.string(),
       summary: z.string(),
+      image: z.string().optional(),
     }),
     load: async ({ store, logger, parseData }) => {
       logger.info('Fetching Medium RSS feed');
@@ -34,7 +35,13 @@ export function mediumLoader(feedUrl: string) {
 }
 
 function parseRssItems(xml: string) {
-  const items: Array<{ title: string; link: string; date: string; summary: string }> = [];
+  const items: Array<{
+    title: string;
+    link: string;
+    date: string;
+    summary: string;
+    image?: string;
+  }> = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
   let match;
 
@@ -51,6 +58,7 @@ function parseRssItems(xml: string) {
         link,
         date,
         summary: stripHtml(body).slice(0, 300),
+        image: body.match(/<img[^>]+src="([^"]+)"/)?.[1],
       });
     }
   }

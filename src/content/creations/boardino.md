@@ -1,8 +1,6 @@
 ---
-layout: ../../layouts/CreationsLayout.astro
 title: 'Boardino (also Helli-Board)'
 url: 'boardino-app.ir'
 date: 2014
-status: Running
-body: 'School mobile app for news and scores!'
+body: "A mobile app for my high school: news, announcements and grades in students' pockets"
 ---

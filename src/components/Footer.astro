@@ -1,15 +1,50 @@
 ---
-import { header } from '../lib/config';
+import { Icon } from 'astro-icon/components';
+import { footer, profile, socials } from '../lib/site';
+import SectionTitle from './SectionTitle.astro';
+import Reveal from './Reveal.astro';
 
-const currentYear = new Date().getFullYear();
+const year = new Date().getFullYear();
 ---
 
-<footer class="bg-white px-8 py-12 dark:bg-black">
-  <p class="text-center font-mono text-sm font-light dark:text-gray-100">
-    {`© ${currentYear} `}
-    <a class="transition-colors hover:text-red-500" href="/">
-      {`${header.firstName} ${header.lastName}. `}
-    </a>
-    All Rights Reserved.
-  </p>
-</footer>
+<Reveal
+  as="footer"
+  strong
+  class="page-shell mx-auto max-w-[34.375rem] pt-10 pb-8 sm:pt-12 sm:pb-10"
+>
+  <div class="border-highlight-line border-t pt-7">
+    <div class="flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <SectionTitle id="elsewhere-title">Elsewhere</SectionTitle>
+        <p class="text-ink-muted mt-3 max-w-[16rem] text-sm leading-6">{footer.tagline}</p>
+      </div>
+      <nav aria-label="Social links" class="flex flex-wrap items-center gap-1">
+        {socials.map((s) => (
+          <a
+            href={s.href}
+            title={s.title}
+            aria-label={s.title}
+            target={s.href.startsWith('mailto:') ? undefined : '_blank'}
+            rel={s.href.startsWith('mailto:') ? undefined : 'noreferrer noopener'}
+            class="social-link text-ink-muted hover:bg-highlight hover:text-ink focus-visible:ring-ink focus-visible:ring-offset-canvas flex size-10 items-center justify-center rounded-full transition-colors duration-200 outline-none focus-visible:ring-1 focus-visible:ring-offset-4"
+          >
+            <span class="block size-[1.05rem] overflow-hidden">
+              <span class="social-stack flex flex-col">
+                <Icon name={s.icon} class="size-[1.05rem] shrink-0" aria-hidden="true" />
+                <Icon name={s.icon} class="size-[1.05rem] shrink-0" aria-hidden="true" />
+              </span>
+            </span>
+          </a>
+        ))}
+      </nav>
+    </div>
+    <div class="text-ink-muted mt-10 text-xs">
+      <p>
+        {`© ${year} `}
+        <a href="/" class="hover:text-ink transition-colors">
+          {profile.name}
+        </a>
+      </p>
+    </div>
+  </div>
+</Reveal>
